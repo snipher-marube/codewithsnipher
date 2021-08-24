@@ -15,7 +15,7 @@ html,body{
 
     --themeDotBorder:#24292e;
 
-    --previewBg:rgb(251, 249, 243, 0.8);
+    --previewBg:rgb(251, 249, 243);
     --previewShadow:#f0ead6;
 
 
@@ -60,7 +60,7 @@ h1, h2, h3, h4, h5, h6, strong{
 }
 p, li, span, label, input, textarea{
     color: var(--secondaryText);
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Roboto Mono', sans-serif;
 }
 h1 { font-size: 56px;}
 h2 { font-size: 36px;}
