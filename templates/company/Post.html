@@ -109,7 +109,7 @@
     <div class="post-container">
 
         <a class="btn btn-sm btn-primary" href="{% url 'posts'  %}">
-            <button class="intro" style="background-color: #aaaa4f; color: white;">
+            <button class="btn" style="background-color: #aaaa4f; color: white;">
                 &laquo Back to Posts </button>
         </a>
         {% if request.user.is_staff %}
@@ -140,7 +140,7 @@
         <p class="intro">{{ post.intro }}</p>
         <br>
 
-        <p class="intro">{{ post.body|safe }}</p>
+        <p>{{ post.body|safe }}</p>
 
         <div class="comment-wrapper">
             <h5>Comments: {{ post.postcomment_set.all.count }}</h5>
