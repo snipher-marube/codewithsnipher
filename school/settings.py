@@ -14,7 +14,10 @@ SECRET_KEY = 'django-insecure-#a-h67t4g$0jx0u9t@&=*0j*n5200y+naifo2sd^8*%vdx2vdb
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['codewithsnipher.herokuapp.com']
+ALLOWED_HOSTS = [
+    'codewithsnipher.herokuapp.com',
+    '127.0.0.1'
+    ]
 
 
 # Application definition
@@ -40,9 +43,13 @@ INSTALLED_APPS = [
     'django_filters',
 
 ]
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
