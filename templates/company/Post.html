@@ -1,0 +1,175 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}{{ post.headline }} | {% endblock %}
+
+{% block content %}
+    <style type="text/css">
+        img{
+            max-width: 100%;
+            object-fit: cover;
+        }
+
+        .featured_image{
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        .tag{
+            display:inline-block;
+            color:#fff;
+            background-color: #264526;
+            border-radius: 5px;
+            margin: 2px;
+            padding: 2px 5px;
+            font-size: 12px;
+        }
+
+        .post-container{
+            width: 900px;
+            margin: 0 auto;
+            height: auto;
+
+            box-shadow: -2px 5px 5px 5px #aaa;
+            padding: 20px 20px;
+        }
+        .post-container .headline{
+            margin-top: 2px;
+            text-align: center;
+            text-decoration: underline;
+            font-size: 35px;
+            color: darkslategrey;
+        }
+        .intro{
+            font-weight: 600;
+            font-family: 'Russo', sans-serif;
+        }
+
+        .comment-wrapper{
+            margin-top: 50px;
+            padding: 10px;
+            border:none;
+            -webkit-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
+            -moz-box-shadow: -1px 1px 3px -1px rgba(0,0,0,0.75);
+            box-shadow: -2px 5px 5px 5px #ccc;
+        }
+        .form-control{
+            border: none;
+            width:90%;
+            height: 200px;
+            padding: 8px 10px;
+            font-size: 20px;
+            box-shadow: -2px 5px 5px 5px #aaa;
+            outline: none;
+        }
+
+
+        .comment{
+            display: flex;
+            padding: 15px;
+        }
+
+        .comment-author{
+            font-size: 14px;
+            font-weight: 700;
+            color: rgb(30, 174, 219) !important;
+            margin: 2px;
+        }
+
+        .author-pic{
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+
+        .comment-body{
+
+            font-size: 14px;
+        }
+
+
+        @media screen and (max-width: 900px){
+            .post-container{
+                width: 95%;
+            }
+        }
+        .btn-comment{
+            background-color: #313431;
+            border-radius: 20px; color: white;
+            margin: 10px;
+            padding: 5px 8px;
+            box-shadow: -2px 5px 5px 5px #aaa;
+            cursor: pointer;
+        }
+
+
+    </style>
+
+
+
+    <div class="post-container">
+
+        <a class="btn btn-sm btn-primary" href="{% url 'posts'  %}">
+            <button class="btn" style="background-color: #aaaa4f; color: white;">
+                &laquo Back to Posts </button>
+        </a>
+        {% if request.user.is_staff %}
+            <a class="btn btn-sm btn-primary" href="{% url 'update_post' post.slug %}">
+                <button class="btn" style="background-color:darkslategrey; color: white;">Edit </button>
+            </a>
+            <a class="btn btn-sm btn-primary" href="{% url 'delete_post' post.slug %}">
+                <button class="btn" style="background-color: #784242; color: white;"> Delete </button>
+            </a>
+        {% endif %}
+    <hr>
+        <h1 class="headline">{{ post.headline }}</h1>
+        <img class="featured_image" src="{{ post.thumbnail.url }}">
+
+        <a href="{%  url 'post' post.category.slug post.slug %}">
+            {% for tag in post.tags.all %}
+                <i id="tag-icon" class="fas fa-tag">
+                    <span class="tag" style="padding: 8px 16px;
+            background-color: #7aaf6e;
+            color: white; font-size: 15px;">{{tag}}</span>
+                </i>
+            {% endfor %}
+
+        </a>
+        <hr>
+
+        <h4>{{ post.sub_headline }}</h4>
+        <p class="intro">{{ post.intro }}</p>
+        <br>
+
+        <p>{{ post.body|safe }}</p>
+
+        <div class="comment-wrapper">
+            <h5>Comments: {{ post.postcomment_set.all.count }}</h5>
+            <hr>
+            <!--
+			- Not logged in, output form and say "Register to comment and give room for a message"
+			- When given username
+		-->
+            {% if request.user.is_authenticated %}
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <textarea required class="form-control" placeholder="Leave a comment..." name="comment"></textarea>
+                    <br>
+                    <input type="submit" class="btn-comment" value="Submit comment">
+                </form>
+            {% else %}
+                <p>Create account to comment</p>
+                <a class="btn btn-primary" href="{% url 'register' %}">Register/Login</a>
+            {% endif %}
+            <hr>
+            {% for comment in postcomment_set.all %}
+                <div class="comment">
+                    <img class="author-pic" src="{{ comment.author.profile_pic.url }}">
+                    <div>
+                        <p class="comment-author">{{ comment.author }}:{{ comment.created|date:"M-d-Y" }}</p>
+                        <p class="comment-body">{{ comment.body }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

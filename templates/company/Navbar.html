@@ -1,0 +1,80 @@
+{% load static %}
+{% block content %}
+    <header id="topbar">
+        <nav class="nav">
+            <div class="nav-menu flex-row">
+                <div class="nav-brand">
+                    <a href="{% url 'home' %}" class="text-gray">CodeWithSnipher</a>
+                </div>
+
+                <div class="toggle-collapse">
+                    <div class="toggle-icons">
+                        <i class="fas fa-bars"></i>
+                    </div>
+                </div>
+                <!--nav items-->
+                <div>
+                    <ul class="nav-items">
+                        <li class="nav-link">
+                            <a href="{% url 'home' %}">Home</a>
+                        </li>
+                        <li class="nav-link">
+                            <a href="{% url 'posts' %}">Posts</a>
+                        </li>
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-link">
+                                <a href="{% url  'account' %}">Account</a>
+                            </li>
+                            <li class="nav-link">
+                                <a href="{% url 'logout' %}">Logout</a>
+                            </li>
+                        {% else %}
+                            <li class="nav-link">
+                                <a href="{% url 'login' %}">Login</a>
+                            </li>
+                            <li class="nav-link">
+                                <a href="{% url 'register' %}">Sign Up</a>
+                            </li>
+                        {% endif %}
+                        <li class="nav-link">
+                            <a href="{% url 'contact' %}">Contact</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="navbar-item">
+                    <form method="get" action="{% url 'search' %}">
+                        <div class="control has-icons-left">
+                            <input class="input is-rounded" name="query" type="text" placeholder="Search">
+                            <span class="icon is-left">
+                            <i class="fa fa-search"></i>
+                        </span>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="social">
+                    <a href="https://github.com/snipher-marube" target="_blank">
+                        <i class="fab fa-github" style="color: grey;"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/snipher-marube-956159188/" target="_blank">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a href="https://www.instagram.com/snipher_marube/" target="_blank">
+                        <i class="fab fa-instagram" style="color: brown;"></i>
+                    </a>
+                    <a href="https://twitter.com/SnipherMarube" target="_blank">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.youtube.com/channel/UC_y320qQnVT9XhRsDiXAEfA" target="_blank">
+                        <i class="fab fa-youtube" style="color:red;"></i>
+                    </a>
+                </div>
+            </div>
+
+            </div>
+
+        </nav>
+
+    </header>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends 'main.html' %}
+
+
+{% block title %}{{ post.title }} | {% endblock %}
+
+{% block content %}
+    <section class="hero">
+        <div class="hero-body">
+            <div class="container">
+                <section class="section">
+                    {% if post.image %}
+                        <figure class="image mb-6">
+                            <img src="{{ post.image.url }}">
+                        </figure>
+                    {% endif %}
+
+                    <div class="columns">
+                        <div class="column is-8 is-offset-2">
+                            <div class="content is-medium">
+
+                                <h2 class="subtitle is-4">{{ post.created_at }}</h2>
+                                <h1 class="title">{{ post.title }}</h1>
+                                <p>{{ post.sub_headline }}</p>
+                                <p>{{ post.intro|safe }}</p>
+                                <p>{{ post.body|safe }}</p>
+
+                                <p><small>Category: <a href="{% url 'category_detail' post.category.slug %}">{{ post.category }}</a></small></p>
+
+                                <hr>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+{% endblock %}

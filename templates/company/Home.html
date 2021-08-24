@@ -1,0 +1,279 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %}Home | {% endblock %}
+{% block content %}
+
+    <main>
+        <!--=========MAin Site Section=====-->
+
+
+        <!------------------------ Site Title ---------------------->
+
+        <section class="site-title">
+            <div class="site-background" data-aos="zoom-in" data-aos-delay="100">
+                <h3 class="page-intro" >Code & Learn</h3>
+                <h1 class="page-intro" >With Code Master</h1>
+                <a href="{% url 'posts' %}">
+                    <button class="btn">Explore</button>
+                </a>
+            </div>
+        </section>
+        <!--======Site Title Done!!====-->
+
+
+        <!-- --------------------- Blog Carousel ----------------- -->
+
+        <section>
+            <div class="blog">
+                <div class="container">
+                    <div class="owl-carousel owl-theme blog-post">
+                        {% for post in posts %}
+                            <div class="blog-content" data-aos="fade-left" data-aos-delay="100">
+
+                                <img src="{{ post.thumbnail.url }}" alt="post-1">
+                                <div class="blog-title">
+                                    <div class="container">
+                                        <h3 class="post-title">{{ post.headline }}</h3>
+                                        <p class="post-intro">{{ post.intro }}</p>
+
+
+                                        <button class="btn btn-blog">
+                                            <a href="{% url 'post' post.category.slug post.slug %}">
+                                                Read More
+                                            </a>
+                                        </button>
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+
+
+                    </div>
+
+                    <div class="owl-navigation">
+                        <span class="owl-nav-prev"><i class="fas fa-long-arrow-alt-left"></i></span>
+                        <span class="owl-nav-next"><i class="fas fa-long-arrow-alt-right"></i></span>
+                    </div>
+                </div>
+
+            </div>
+            <hr>
+
+        </section>
+
+        <!-- ----------x---------- Blog Carousel --------x-------- -->
+
+        <!-- ---------------------- Site Content -------------------------->
+
+        <section class="container">
+            <div class="site-content">
+                <div class="posts">
+
+                    {% for post in posts %}
+
+                        <div class="post-content" data-aos="zoom-in" data-aos-delay="200">
+                            <div class="post-image">
+                                <div>
+                                    <img src="{{post.thumbnail.url}}" class="img" alt="blog1">
+                                </div>
+                                <div class="post-info flex-row">
+                                    <span><i class="fas fa-user text-gray"></i>&nbsp;&nbsp;{{ post.user.name }}</span>
+                                    <span><i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;{{ post.created }}</span>
+                                    <span>{{ post.postcomment_set.all.count }} Comments</span>
+                                </div>
+                            </div>
+                            <div class="post-title">
+                                <a href="{%  url 'post' post.category.slug post.slug %}">{{ post.headline }}</a>
+                                <p>{{ post.sub_headline }}</p>
+                                <p>{{ post.intro }}</p>
+                                <p>
+                                    <small>Category: <a href="{% url 'category_detail' post.category.slug %}">
+                                        {{ post.category }}</a>
+                                    </small>
+                                </p>
+                                <a href="{%  url 'post' post.category.slug post.slug %}">
+                                    <button class="btn post-btn">Read More &nbsp; <i class="fas fa-arrow-right"></i></button>
+                                </a>
+                            </div>
+                        </div>
+                        <hr>
+                    {% endfor %}
+
+
+
+                    <div class="pagination flex-row">
+                        <a href="#"><i class="fas fa-chevron-left"></i></a>
+                        <a href="#" class="pages">1</a>
+                        <a href="#" class="pages">2</a>
+                        <a href="#" class="pages">3</a>
+                        <a href="#"><i class="fas fa-chevron-right"></i></a>
+                    </div>
+                </div>
+
+                <aside class="sidebar">
+                    <div class="category">
+                        <h2>Category</h2>
+
+                        <ul class="category-list">
+                            {% for post in posts %}
+                                <li class="list-items" data-aos="fade-left" data-aos-delay="100">
+                                    <a href="{% url 'category_detail' post.category.slug  %}">{{ post.category }}</a>
+                                    <span>{{ category.posts_count }}</span>
+                                </li>
+                            {% endfor %}
+
+                        </ul>
+
+                    </div>
+
+                    <div class="popular-post">
+                        <h2>Popular Post</h2>
+                        {% for post in posts.all %}
+                            <div class="post-content" data-aos="flip-up" data-aos-delay="200">
+                                <div class="post-image">
+                                    <div>
+                                        <img src="{{ post.thumbnail.url }}" class="img" alt="blog1">
+                                    </div>
+                                    <div class="post-info flex-row">
+                                    <span><i class="fas fa-calendar-alt text-gray"></i>&nbsp;&nbsp;{{ post.created }}
+                                        </span>
+                                        <span>{{ post.comments.count }}</span>
+                                    </div>
+                                </div>
+                                <div class="post-title">
+                                    <a href="{%  url 'post' post.category.slug post.slug %}">{{ post.headline }}</a>
+                                    <p>{{ post.sub_headline }}</p>
+                                    <p>{{ post.intro }}</p>
+                                    <p>
+                                        <small>Category: <a href="{% url 'category_detail' post.category.slug %}">
+                                            {{ post.category }}</a>
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                        {% endfor %}
+
+
+
+                        <div class="newsletter" data-aos="fade-left" data-aos-delay="200">
+                            <h2>Newsletter</h2>
+                            <div class="form-element">
+                                <form enctype="multipart/form-data" method="post" action="/newsletter/codewithsnipher/subscribe/">
+                                    {% csrf_token %}
+
+                                    <input class="input-element" placeholder="Email" type="email" name="email_field" required="" id="id_email_field">
+                                    <button class="btn form-btn" id="id_submit" name="submit" value="Subscribe" type="submit">Subscribe</button>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="popular-tags">
+                        <h2>Popular Tags</h2>
+                        <div class="tags flex-row">
+
+                            <span class="tag" data-aos="flip-up" data-aos-delay="100">Software</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="200">technology</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="300">travel</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="400">illustration</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="500">design</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="600">lifestyle</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="700">love</span>
+                            <span class="tag" data-aos="flip-up" data-aos-delay="800">project</span>
+                        </div>
+                    </div>
+
+                </aside>
+            </div>
+        </section>
+
+        <!-- -----------x---------- Site Content -------------x------------>
+    </main>
+    <!---------------x------------- Main Site Section ---------------x-------------->
+
+
+    <!-- --------------------------- Footer ---------------------------------------- -->
+
+    <footer class="footer">
+        <div class="container">
+            <div class="about-us" data-aos="fade-right" data-aos-delay="200">
+                <h2>About us</h2>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusantium quia atque nemo ad modi officiis
+                    iure, autem nulla tenetur repellendus.</p>
+            </div>
+            <div class="newsletter" data-aos="fade-right" data-aos-delay="200">
+                <h2>Newsletter</h2>
+                <p>Stay update with our latest</p>
+                <div class="form-element">
+                    <form enctype="multipart/form-data" method="post" action="/newsletter/codewithsnipher/subscribe/">
+                        {% csrf_token %}
+
+                        <input class="input-element" placeholder="Email" type="email" name="email_field" required="" id="id_email_field">
+
+
+                        <button  class="span" id="id_submit" name="submit" value="Subscribe" type="submit">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+
+
+                    </form>
+
+                </div>
+            </div>
+            <div class="instagram" data-aos="fade-left" data-aos-delay="200">
+                <h2>Instagram</h2>
+                <div class="flex-row">
+                    <img src="../../static/images/instagram/thumb-card3.png" alt="insta1">
+                    <img src="../../static/images/instagram/thumb-card4.png" alt="insta2">
+                    <img src="../../static/images/instagram/thumb-card5.png" alt="insta3">
+                </div>
+                <div class="flex-row">
+                    <img src="../../static/images/instagram/thumb-card6.png" alt="insta4">
+                    <img src="../../static/images/instagram/thumb-card7.png" alt="insta5">
+                    <img src="../../static/images/instagram/thumb-card8.png" alt="insta6">
+                </div>
+            </div>
+            <div class="follow" data-aos="fade-left" data-aos-delay="200">
+                <h2>Follow us</h2>
+                <p>Let us be Social</p>
+                <div>
+                    <a target="_blank" href="https://github.com/snipher-marube">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a target="_blank" href="https://www.linkedin.com/in/snipher-marube-956159188/">
+                        <i class="fab fa-linkedin"></i>
+                    </a>
+                    <a target="_blank" href="https://twitter.com/SnipherMarube">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a target="_blank" href="https://www.instagram.com/snipher_marube/">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a target="_blank" href="https://www.youtube.com/channel/UC_y320qQnVT9XhRsDiXAEfA">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="rights flex-row" data-aos="flip-up" data-aos-delay="50">
+            <h4 class="text-gray">
+                Copyright ©2021 All rights reserved | made by
+                <a href="https://www.youtube.com/channel/UC_y320qQnVT9XhRsDiXAEfA" target="_blank">snipherDev
+                    <i class="fab fa-youtube"style="color: red;"></i>
+                    Channel
+                </a>
+            </h4>
+        </div>
+        <div class="move-up" data-aos="flip-up" data-aos-delay="800">
+            <span>
+                <i class="fas fa-arrow-circle-up fa-2x"></i>
+            </span>
+        </div>
+    </footer>
+
+
+{% endblock %}
